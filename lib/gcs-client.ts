@@ -30,6 +30,20 @@ function initStorage(): Storage {
 		});
 	}
 
+	// Check for GCS_KEY_JSON environment variable (Railway, Cloud Run, etc.)
+	if (process.env.GCS_KEY_JSON) {
+		try {
+			console.log("[GCS] Using GCS_KEY_JSON environment variable");
+			const credentials = JSON.parse(process.env.GCS_KEY_JSON);
+			return new Storage({
+				projectId,
+				credentials,
+			});
+		} catch (error) {
+			console.error("[GCS] Failed to parse GCS_KEY_JSON:", error);
+		}
+	}
+
 	// Use default credentials (Cloud Run, GCE, etc.)
 	console.log("[GCS] Using default credentials");
 	return new Storage({ projectId });
