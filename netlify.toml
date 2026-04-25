@@ -1,0 +1,9 @@
+[build]
+  command = "docker build -t jack-jill ."
+  publish = "."
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Netlify automatically provides PORT env var
+# Your server.ts reads process.env.PORT || "8080"
